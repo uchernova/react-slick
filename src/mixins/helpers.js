@@ -33,7 +33,7 @@ var helpers = {
     } else {
       this.autoPlay(props.autoplay);
     }
-    
+
     let slidesToLoad = getOnDemandLazySlides({}, this.props, this.state)
     if (slidesToLoad.length > 0 && this.props.onLazyLoad) {
       this.props.onLazyLoad(slidesToLoad)
@@ -168,7 +168,8 @@ var helpers = {
       } else {
         finalTargetSlide = animationTargetSlide - this.state.slideCount;
       }
-    } else if (this.state.currentSlide + this.slidesToShow < this.state.slideCount && animationTargetSlide + this.props.slidesToShow >= this.state.slideCount) {
+    } else if (this.state.currentSlide + this.slidesToShow < this.state.slideCount && animationTargetSlide + this.props.slidesToShow >= this.state.slideCount ||
+        this.props.slidesToScroll === 1 && animationTargetSlide > this.state.slideCount - this.props.slidesToShow) {
       if (this.props.infinite === false) {
         finalTargetSlide = this.state.slideCount - this.props.slidesToShow
       } else {
@@ -182,10 +183,10 @@ var helpers = {
       finalTargetSlide = animationTargetSlide;
     }
 
-    /* 
+    /*
       stop: critical checkpoint
     */
-   
+
     animationTargetLeft = getTrackLeft(assign({
       slideIndex: animationTargetSlide,
       trackRef: this.track
